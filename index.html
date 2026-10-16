@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espacio Evelyn Sosa - Menú de Servicios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage-green: #8A9A86;
+            --sage-dark: #5F6D5C;
+            --sage-light: #EBF0E9;
+            --cream-bg: #FAF8F5;
+            --card-bg: #FFFFFF;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --gold-accent: #C5A059;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--cream-bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(138, 154, 134, 0.2);
+        }
+
+        header {
+            background-color: var(--sage-green);
+            color: white;
+            padding: 24px 20px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .brand-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 8px;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background-color: var(--sage-light);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--sage-dark);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .back-btn.visible {
+            visibility: visible;
+        }
+
+        .step-indicator {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sage-dark);
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 24px 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            color: var(--sage-dark);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Categorías principales */
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--sage-light);
+            border-radius: 16px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-card:hover, .category-card:active {
+            border-color: var(--sage-green);
+            background-color: var(--sage-light);
+            transform: translateY(-2px);
+        }
+
+        .category-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .category-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--sage-light);
+            color: var(--sage-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .category-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+
+        .arrow-icon {
+            color: var(--sage-dark);
+            font-size: 18px;
+        }
+
+        /* Lista de Subservicios */
+        .subservice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .subservice-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+
+        .subservice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 10px;
+        }
+
+        .subservice-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--sage-dark);
+        }
+
+        .subservice-price {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--gold-accent);
+            white-space: nowrap;
+        }
+
+        .subservice-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .subservice-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--sage-dark);
+            background-color: var(--sage-light);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        /* Botón inferior para volver */
+        .bottom-back-btn {
+            display: block;
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px 20px;
+            background-color: var(--sage-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(138, 154, 134, 0.3);
+        }
+
+        .bottom-back-btn:hover, .bottom-back-btn:active {
+            background-color: var(--sage-dark);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 18px 20px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background-color: var(--cream-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--sage-dark);
+            font-weight: 600;
+            font-size: 12px;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--gold-accent);
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <img src="https://lh3.googleusercontent.com/d/1AxGpG2TcvWuzIuuIMSl5FR_elX-ugUcn" alt="Espacio Evelyn Sosa" class="brand-logo" onerror="this.style.display='none'">
+        <h1>Espacio Evelyn Sosa</h1>
+        <p>ESTÉTICA BELLEZA Y BIENESTAR</p>
+    </header>
+
+    <div class="nav-bar">
+        <button class="back-btn" id="backBtn" onclick="goBack()">
+            &#8592; Volver
+        </button>
+        <span class="step-indicator" id="stepIndicator">Seleccioná un servicio</span>
+    </div>
+
+    <div class="content">
+        <!-- VISTA PRINCIPAL DE CATEGORÍAS -->
+        <div class="view active" id="categoriesView">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="openCategory('manos')">
+                    <div class="category-info">
+                        <div class="category-icon">💅</div>
+                        <div class="category-title">Manicuría & Uñas</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('pies')">
+                    <div class="category-info">
+                        <div class="category-icon">🦶</div>
+                        <div class="category-title">Pedicuría & Pies</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('masajes')">
+                    <div class="category-info">
+                        <div class="category-icon">💆‍♀️</div>
+                        <div class="category-title">Masajes & Corporal</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('pestanas')">
+                    <div class="category-info">
+                        <div class="category-icon">👁️</div>
+                        <div class="category-title">Pestañas & Cejas</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('peluqueria')">
+                    <div class="category-info">
+                        <div class="category-icon">💇‍♀️</div>
+                        <div class="category-title">Peluquería Capilar</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('holisticas')">
+                    <div class="category-info">
+                        <div class="category-icon">✨</div>
+                        <div class="category-title">Terapias Holísticas</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+
+                <div class="category-card" onclick="openCategory('cosmiatria')">
+                    <div class="category-info">
+                        <div class="category-icon">🧴</div>
+                        <div class="category-title">Dermo Cosmiatría</div>
+                    </div>
+                    <span class="arrow-icon">&#8250;</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISTA DE DETALLES DE SUBSERVICIOS -->
+        <div class="view" id="detailsView">
+            <h2 class="section-title" id="categoryTitle">Detalles</h2>
+            <div class="subservice-list" id="subserviceList">
+                <!-- Se llena dinámicamente -->
+            </div>
+            <button class="bottom-back-btn" onclick="goBack()">
+                &#8592; Volver al Menú Principal
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-social">
+            <a href="https://wa.me/5491159614857" target="_blank" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                11-5961-4857
+            </a>
+            <a href="https://instagram.com/espacioevelynsosa" target="_blank" class="social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                @espacioevelynsosa
+            </a>
+        </div>
+        <p>Precios y promociones sujetos a cambios. Consulta por turnos disponibles.</p>
+    </footer>
+</div>
+
+<script>
+    const servicesData = {
+        manos: {
+            title: "Manicuría & Uñas",
+            items: [
+                { name: "Manicuría Spa", price: "$25.000", desc: "Manicuría integral + exfoliación + hidratación + esmaltado común.", time: "1 hs a 1:30 hs" },
+                { name: "Esmaltado Semipermanente en Manos", price: "$25.000", desc: "Manicuría mecánica + Esmaltado con esmaltes de gel.", time: "1 hs" },
+                { name: "Exfoliación (Adicional)", price: "$20.000", desc: "Exfoliación + hidratación y Masajes.", time: "15 min" },
+                { name: "Esculpidas de Gel", price: "$38.000", desc: "Incluye finalizado con esmaltes semipermanentes a un solo tono o combinados, french o babyboomer.", time: "2 hs aprox." },
+                { name: "Esculpidas de Acrílico", price: "$38.000", desc: "Incluye finalizado con esmaltes semipermanentes a un solo tono o combinados, french o babyboomer.", time: "2 hs aprox." },
+                { name: "Esculpidas de Acrigel", price: "$38.000", desc: "Incluye finalizado con esmaltes semipermanentes a un solo tono o combinados, french o babyboomer.", time: "2 hs aprox." },
+                { name: "Capping Gel (Con estructura)", price: "$35.000", desc: "Recubrimiento de gel para reforzar la uña natural, incluye finalizado con semi.", time: "1:40 a 2 hs aprox." },
+                { name: "Uñas Soft Gel", price: "$38.000", desc: "Incluye finalizado con semi a un solo tono, french, babyboomer con semi.", time: "1:40 a 2 hs aprox." },
+                { name: "Uñas Decoradas", price: "Desde $1.000 c/uña", desc: "Amplia variedad de decoraciones, nail art, stamping, cristales, dijes, efectos, etc.", time: "-" }
+            ]
+        },
+        pies: {
+            title: "Pedicuría & Pies",
+            items: [
+                { name: "Belleza de Pies", price: "$25.000", desc: "Corte de uñas + esmaltado común + hidratación.", time: "30 min" },
+                { name: "Pedicuría Simple", price: "$36.000", desc: "Pedicuría básica profesional. Exfoliación mecánica + corte de uñas + hidratación.", time: "1 hs" },
+                { name: "Pedicuría Profunda", price: "$38.000 a $42.000", desc: "Exfoliación mecánica + limpieza de uñas y laterales + eliminación profunda de callosidades y durezas con bisturí + corte + hidratación.", time: "1:30 hs" },
+                { name: "Esmaltado Semipermanente en Pies", price: "$28.000", desc: "Adicional a pedicuría: Corte de uñas + finalizado con esmaltes semi permanentes.", time: "1 hs aprox." },
+                { name: "Reflexología Podal", price: "$25.000", desc: "Adicional a pies: Reflexología podal y masaje en piernas.", time: "30 min aprox." },
+                { name: "Spa de Pies", price: "$25.000", desc: "Adicional a pies: Exfoliación hidratante + máscara hidratante + masajes.", time: "30 min aprox." }
+            ]
+        },
+        masajes: {
+            title: "Masajes & Corporal",
+            items: [
+                { name: "Masaje Descontracturante", price: "$30.000", desc: "Técnica manual profunda enfocada en eliminar contracturas y puntos gatillo, restaurando la función muscular.", time: "45 min a 1 hs" },
+                { name: "Masaje Descontracturante con Piedras Calientes", price: "$30.000", desc: "Masaje profundo con piedras calientes que libera contracturas, alivia dolores musculares y mejora la circulación.", time: "45 min a 1 hs" },
+                { name: "Masaje Descontracturante Premium", price: "$35.000", desc: "Sesión personalizada que combina técnicas manuales con opción de cañas de bambú, piedras calientes o copas.", time: "45 min a 1 hs" },
+                { name: "Masaje Maderoterapia", price: "$30.000", desc: "Tratamiento corporal con maderoterapia que activa el drenaje, mejora la textura de la piel y favorece la reducción de volumen y celulitis.", time: "45 min a 1 hs" },
+                { name: "Masaje Reductor + Maderoterapia + Electrodos", price: "$35.000", desc: "Tratamiento intensivo que combina maderas y electroestimulación para reducir, tonificar y potenciar resultados.", time: "45 min a 1 hs" },
+                { name: "Masajes + Reiki", price: "$45.000", desc: "La fusión perfecta entre alivio muscular y equilibrio energético. Ideal para bajar el estrés y mejorar el descanso.", time: "1:20 hs" }
+            ]
+        },
+        pestanas: {
+            title: "Pestañas & Cejas",
+            items: [
+                { name: "Perfilado de Cejas", price: "$12.000", desc: "Diseño y perfilado de cejas profesional.", time: "-" },
+                { name: "Lifting de Pestañas Nutritivo", price: "$25.000", desc: "Lifting nutritivo + tinte de pestañas.", time: "-" },
+                { name: "Laminado de Cejas", price: "$20.000", desc: "Laminado de cejas + diseño y perfilado.", time: "-" },
+                { name: "Extensiones PxP Clásicas", price: "$21.500", desc: "Pestañas artesanales clásicas.", time: "-" },
+                { name: "Extensiones Efecto Rímel", price: "$22.500", desc: "Extensiones artesanales estilo rímel.", time: "-" },
+                { name: "Extensiones Volumen Brasilero", price: "$25.000", desc: "Extensiones tecnológicas de volumen.", time: "-" },
+                { name: "Extensiones Volumen Hawaiano", price: "$28.000", desc: "Extensiones tecnológicas efecto hawaiano.", time: "-" },
+                { name: "Extensiones Volumen Egipcio", price: "$28.500", desc: "Extensiones tecnológicas estilo egipcio.", time: "-" },
+                { name: "Extensiones Volumen Hollywood", price: "$30.000", desc: "Extensiones tecnológicas máximo volumen.", time: "-" }
+            ]
+        },
+        peluqueria: {
+            title: "Peluquería Capilar",
+            items: [
+                { name: "Modelado + Corte de Puntas", price: "Desde $25.000", desc: "Servicio básico de corte y peinado.", time: "1:30 a 2 hs" },
+                { name: "Tratamiento Hidronutrición Capilar", price: "Desde $60.000", desc: "Tratamiento profundo que hidrata, nutre y repara la fibra capilar. Líneas profesionales L'Oréal y Karseell.", time: "2 a 3 hs" },
+                { name: "Botox / Keratina Capilar", price: "Desde $60.000", desc: "Reconstrucción, alisado de fibra, reducción de frizz y brillo intesivo.", time: "3 hs aprox." },
+                { name: "Alisado sin Formol", price: "$60.000", desc: "Reduce el frizz y volumen sin formol. Apto embarazadas. Incluye nutrición + modelado + corte.", time: "3 hs aprox." },
+                { name: "Alisado con Formol", price: "Desde $60.000", desc: "Alisado intensivo que reduce el frizz y baja el volumen. Incluye nutrición + modelado + corte.", time: "3 hs aprox." },
+                { name: "Promo Claritos Blonde", price: "$135.000", desc: "Claritos con gorra + Corte de puntas + Nutrición intensiva.", time: "-" },
+                { name: "Color en Raíz", price: "$30.000 a $45.000", desc: "Cubre crecimiento natural para transición uniforme.", time: "2 hs aprox." },
+                { name: "Color Completo", price: "Desde $40.000", desc: "Coloración completa. Incluye nutrición + modelado + corte de puntas.", time: "2 hs aprox." },
+                { name: "Lavado y Brushing", price: "Desde $30.000", desc: "Lavado con brushing o plancha.", time: "2 hs aprox." },
+                { name: "Peinados Simples / Semirecogidos", price: "Desde $50.000", desc: "Combina cabello suelto con secciones recogidas elegamente.", time: "2 hs aprox." },
+                { name: "Peinados de 15 Años (Pelo Largo)", price: "Desde $120.000", desc: "Lavado y peinado especial de alta duración.", time: "2 hs aprox." },
+                { name: "Peinados Recogidos", price: "Desde $75.000", desc: "Peinados sofisticados para fiestas y ocasiones especiales.", time: "2 hs aprox." }
+            ]
+        },
+        holisticas: {
+            title: "Terapias Holísticas",
+            items: [
+                { name: "Reiki", price: "$30.000", desc: "Terapia energética de imposición de manos para armonizar cuerpo y mente.", time: "1 hs" },
+                { name: "Biodecodificación", price: "$30.000", desc: "Identifica el origen emocional de conflictos o síntomas para sanar.", time: "1 hs" },
+                { name: "Constelación Familiar Individual", price: "$40.000 / sesión", desc: "Comprende dinámicas familiares (Proceso de 2 sesiones).", time: "1 hs" },
+                { name: "Tarot", price: "$30.000", desc: "Sesión de lectura para brindar claridad, guía y perspectiva.", time: "45 min aprox." },
+                { name: "Ritual Cuerpo y Energía", price: "$60.000", desc: "Combo de relajación: 45 min de masajes + 45 min de Reiki.", time: "1:30 hs aprox." },
+                { name: "Ritual Belleza y Guía", price: "+ $30.000", desc: "Adicional de lectura express de Tarot para combinar con tu servicio de uñas.", time: "45 min aprox." }
+            ]
+        },
+        cosmiatria: {
+            title: "Dermo Cosmiatría",
+            items: [
+                { name: "Limpieza Profunda", price: "$42.000", desc: "Limpieza profunda, extracción de impurezas y renovación para una piel más saludable.", time: "-" },
+                { name: "Peeling Personalizado", price: "$48.000 (1ª ses.) / $37.000 c/u", desc: "El ácido se selecciona según el biotipo y necesidades de tu piel. 1ª sesión (1 hr): $48.000. Pack 5 sesiones (30 min c/u): $37.000 c/u.", time: "30 min a 1 hr" },
+                { name: "Tratamiento de Melasma", price: "A determinar", desc: "Tratamiento despigmentante personalizado. El valor depende de la evaluación y el biotipo de piel.", time: "-" },
+                { name: "Shock Vitamínicos (Colágeno + Elastina)", price: "$50.000 c/u", desc: "Con aparatología. Pack de 4 sesiones (1 sesión cada 15 días).", time: "-" },
+                { name: "Dr. Pen / Microneedling", price: "$45.000 x sesión", desc: "Estimula la producción de colágeno, mejora textura, firmeza y luminosidad.", time: "-" },
+                { name: "Activos Personalizados según Biotipo", price: "$40.000 c/u", desc: "Una sesión cada 21 días. Se puede alternar con Dr. Pen.", time: "-" }
+            ]
+        }
+    };
+
+    function openCategory(catKey) {
+        const data = servicesData[catKey];
+        if (!data) return;
+
+        document.getElementById('categoryTitle').innerText = data.title;
+        const subList = document.getElementById('subserviceList');
+        subList.innerHTML = '';
+
+        data.items.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'subservice-card';
+
+            let timeTag = item.time !== '-' ? `<span class="subservice-meta">⏱️ ${item.time}</span>` : '';
+
+            card.innerHTML = `
+                <div class="subservice-header">
+                    <span class="subservice-name">${item.name}</span>
+                    <span class="subservice-price">${item.price}</span>
+                </div>
+                <div class="subservice-desc">${item.desc}</div>
+                ${timeTag}
+            `;
+            subList.appendChild(card);
+        });
+
+        document.getElementById('categoriesView').classList.remove('active');
+        document.getElementById('detailsView').classList.add('active');
+
+        document.getElementById('backBtn').classList.add('visible');
+        document.getElementById('stepIndicator').innerText = "Lista de precios";
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goBack() {
+        document.getElementById('detailsView').classList.remove('active');
+        document.getElementById('categoriesView').classList.add('active');
+
+        document.getElementById('backBtn').classList.remove('visible');
+        document.getElementById('stepIndicator').innerText = "Seleccioná un servicio";
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
